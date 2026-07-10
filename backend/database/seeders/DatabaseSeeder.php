@@ -2,24 +2,37 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Empresa;
+use App\Models\Filial;
+use App\Models\Usuario;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     /**
-     * Seed the application's database.
+     * Popula dados iniciais para autenticação (empresa, filial e usuário admin).
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $empresa = Empresa::firstOrCreate(
+            ['cnpj' => '00000000000191'],
+            ['nome' => 'NovaWave Transportes']
+        );
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        $filial = Filial::firstOrCreate(
+            ['idempresa' => $empresa->idempresa, 'nome' => 'Matriz'],
+        );
+
+        Usuario::firstOrCreate(
+            ['email' => 'admin@novawave.com'],
+            [
+                'nome' => 'Administrador',
+                'senha' => 'senha123',
+                'idempresa' => $empresa->idempresa,
+                'idfilial' => $filial->idfilial,
+                'cargo' => 'Administrador',
+                'situacao' => 1,
+            ]
+        );
     }
 }
