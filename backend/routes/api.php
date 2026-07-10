@@ -8,7 +8,7 @@ Route::post('login', [LoginController::class, 'logar']);
 
 // Rotas protegidas por JWT
 Route::middleware('auth:api')->group(function () {
-    Route::get('eu', [LoginController::class, 'eu']);
-    Route::post('renovar', [LoginController::class, 'renovar']);
+    Route::get('perfil', [LoginController::class, 'perfil']);
+    Route::post('recarregar', [LoginController::class, 'recarregar']);
     Route::post('sair', [LoginController::class, 'sair']);
 });

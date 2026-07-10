@@ -6,15 +6,15 @@ services:
     image: postgis/postgis:17-3.5
     container_name: novawave-db
     environment:
-      POSTGRES_DB: novawave
-      POSTGRES_USER: novawave
-      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: ${DB_DATABASE:-novawave}
+      POSTGRES_USER: ${DB_USERNAME:-novawave}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
     ports:
       - "5432:5432"
     volumes:
       - dbdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U novawave -d novawave"]
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -42,9 +42,9 @@ services:
       DB_CONNECTION: pgsql
       DB_HOST: db
       DB_PORT: 5432
-      DB_DATABASE: novawave
-      DB_USERNAME: novawave
-      DB_PASSWORD: secret
+      DB_DATABASE: ${DB_DATABASE:-novawave}
+      DB_USERNAME: ${DB_USERNAME:-novawave}
+      DB_PASSWORD: ${DB_PASSWORD:-secret}
       REDIS_HOST: redis
       REDIS_PORT: 6379
       CACHE_STORE: redis

@@ -34,17 +34,17 @@ class LoginController extends Controller
     }
 
     /**
-     * Retorna o usuário autenticado.
+     * Retorna os dados do usuário autenticado.
      */
-    public function eu(): UsuarioResource
+    public function perfil(): UsuarioResource
     {
         return new UsuarioResource(auth('api')->user());
     }
 
     /**
-     * Renova o token JWT do usuário autenticado.
+     * Recarrega o token JWT do usuário autenticado (refresh).
      */
-    public function renovar(): JsonResponse
+    public function recarregar(): JsonResponse
     {
         return $this->respostaComToken(auth('api')->refresh());
     }
