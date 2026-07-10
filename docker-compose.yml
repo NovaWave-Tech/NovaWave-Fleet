@@ -1,9 +1,9 @@
-# NovaWave Business ERP — ambiente de desenvolvimento
+# NovaWave Fleet — ambiente de desenvolvimento
 # Subir tudo:   docker compose up --build
 # Derrubar:     docker compose down
 services:
   db:
-    image: postgres:16-alpine
+    image: postgis/postgis:17-3.5
     container_name: novawave-db
     environment:
       POSTGRES_DB: novawave
@@ -19,11 +19,24 @@ services:
       timeout: 5s
       retries: 10
 
+  redis:
+    image: redis:8-alpine
+    container_name: novawave-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
   backend:
     build: ./backend
     container_name: novawave-backend
     depends_on:
       db:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     environment:
       DB_CONNECTION: pgsql
@@ -32,17 +45,31 @@ services:
       DB_DATABASE: novawave
       DB_USERNAME: novawave
       DB_PASSWORD: secret
-    ports:
-      - "8000:8000"
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      CACHE_STORE: redis
+      SESSION_DRIVER: redis
+      QUEUE_CONNECTION: redis
     volumes:
       - ./backend:/var/www/html
       - backend_vendor:/var/www/html/vendor
+
+  nginx:
+    image: nginx:alpine
+    container_name: novawave-nginx
+    depends_on:
+      - backend
+    ports:
+      - "8000:80"
+    volumes:
+      - ./backend:/var/www/html
+      - ./backend/docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
 
   frontend:
     build: ./frontend
     container_name: novawave-frontend
     depends_on:
-      - backend
+      - nginx
     environment:
       VITE_API_URL: http://localhost:8000/api
     ports:

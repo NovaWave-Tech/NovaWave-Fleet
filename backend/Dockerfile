@@ -1,10 +1,15 @@
-# NovaWave ERP — Backend (Laravel + PHP)
-FROM php:8.3-cli
+# NovaWave Fleet — Backend (Laravel + PHP-FPM)
+FROM php:8.4-fpm
 
-# Dependências de sistema + extensões PHP (PostgreSQL/PDO, sodium para JWT, etc.)
+# Dependências de sistema + extensões PHP
+#  - pdo_pgsql: PostgreSQL/PostGIS
+#  - sodium: assinatura JWT (php-open-source-saver/jwt-auth)
+#  - redis: cache/filas/sessão (Redis 8)
 RUN apt-get update && apt-get install -y --no-install-recommends \
         git unzip libpq-dev libsodium-dev libzip-dev \
-    && docker-php-ext-install pdo pdo_pgsql sodium zip bcmath \
+    && docker-php-ext-install pdo pdo_pgsql sodium zip bcmath pcntl \
+    && pecl install redis \
+    && docker-php-ext-enable redis \
     && rm -rf /var/lib/apt/lists/*
 
 # Composer
@@ -20,6 +25,7 @@ RUN composer install --no-interaction --no-progress --prefer-dist --no-scripts
 COPY . .
 RUN composer dump-autoload --optimize
 
-EXPOSE 8000
+# PHP-FPM escuta na porta 9000 (consumida pelo Nginx)
+EXPOSE 9000
 
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+CMD ["php-fpm"]
