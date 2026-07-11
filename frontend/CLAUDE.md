@@ -42,40 +42,39 @@ Antes de codar qualquer tela ou componente:
 
 ---
 
-## 3. Estrutura recomendada
+## 3. Estrutura
 
-O `src/` atual é só o esqueleto do template. Organize por **feature/módulo** (ver módulos na raiz):
+Organização por **camada de service + páginas**: cada domínio tem um arquivo em
+`service/` que faz as requisições e devolve os dados; as páginas (`pages/`)
+consomem essas funções (via React Query).
 
 ```
 src/
 ├── main.tsx              # entrada
-├── App.tsx               # providers + rotas
-├── routes/               # rotas (React Router)
+├── App.tsx               # providers + rotas + <Toaster/>
+├── service/              # camada de acesso à API (uma função por rota)
+│   ├── http.ts           # instância do Axios + helpers de token + interceptors
+│   ├── auth.ts           # logar, sair, perfil
+│   ├── veiculos.ts       # (futuro) listarVeiculos, criarVeiculo, ...
+│   └── ...               # um arquivo por domínio
 ├── lib/
-│   ├── api.ts            # instância central do Axios (+ interceptor JWT)
 │   └── queryClient.ts    # QueryClient do React Query
+├── utils/
+│   └── alertas.ts        # showError/showSuccess (toaster do Chakra)
 ├── components/           # componentes reutilizáveis (Chakra UI)
-├── features/             # módulos de negócio
-│   ├── auth/
-│   ├── dashboard/
-│   ├── companies/        # empresas
-│   ├── branches/         # filiais
-│   ├── vehicles/         # veículos
-│   ├── drivers/          # motoristas
-│   ├── fuelings/         # abastecimentos
-│   ├── maintenances/     # manutenções
-│   ├── documents/
-│   ├── costs/            # custos
-│   ├── reports/          # relatórios
-│   ├── audit/            # auditoria
-│   └── permissions/      # RBAC
-│       ├── api/          # hooks React Query (queries/mutations)
-│       ├── components/   # UI da feature
-│       └── schemas/      # schemas Zod
-├── hooks/                # hooks genéricos
-├── theme/               # tema/tokens do Chakra UI v3
+│   ├── MarcaNovaWave.tsx
+│   ├── RotaProtegida.tsx
+│   └── Toaster.tsx
+├── pages/                # uma pasta por página
+│   └── <pagina>/
+│       ├── Index.tsx     # a página
+│       └── components/   # componentes e schemas Zod da página
+├── theme/                # tema/tokens do Chakra UI v3
 └── types/                # tipos compartilhados
 ```
+
+> Padrão: **o `service/` faz a requisição na rota e retorna os dados**; a tela
+> chama a função do service (normalmente dentro de `useQuery`/`useMutation`).
 
 ---
 
@@ -87,13 +86,22 @@ Envolver a aplicação com, no mínimo:
 - `QueryClientProvider` (React Query)
 - `BrowserRouter` (React Router v7)
 
-### Instância do Axios (`src/lib/api.ts`)
-- Instância única com `baseURL` de `import.meta.env.VITE_API_URL`.
-- Interceptor de request anexando o **token JWT** (`Authorization: Bearer`).
-- Interceptor de response tratando `401` (refresh/redirect para login).
+### Camada de service (`src/service/`)
+- `http.ts`: instância única do Axios com `baseURL` de `import.meta.env.VITE_API_URL`,
+  helpers de token (`obterToken`, `tokenValido`, `salvarAuth`, `limparAuth`,
+  `obterUsuario`) e interceptors: request anexa o **JWT**; response em `401/403`
+  desloga e redireciona ao login, demais erros mostram `showError`.
+- Um arquivo por domínio (`auth.ts`, `veiculos.ts`, ...) exportando funções
+  `async` que chamam o `http` e **retornam os dados**.
 
 ### React Query
+- As telas consomem os services via `useQuery`/`useMutation` (a função do service
+  é o `queryFn`/`mutationFn`).
 - Chaves de query estáveis e tipadas; invalidar caches após mutations.
+
+### Alertas
+- `utils/alertas.ts` expõe `showError`/`showSuccess` (toaster do Chakra); o
+  `<Toaster/>` fica montado uma vez em `App.tsx`.
 
 ### Formulários
 - `useForm({ resolver: zodResolver(schema) })` integrando campos do Chakra UI.
@@ -125,8 +133,9 @@ npm run lint      # ESLint
 
 ## 7. Pendências de implementação
 
-- [ ] Configurar `ChakraProvider` (v3), `QueryClientProvider` e `BrowserRouter` em `App.tsx`.
-- [ ] Instância central do Axios com interceptor JWT.
-- [ ] Tema do Chakra UI v3 em `src/theme` (`createSystem`).
-- [ ] Tela de login consumindo a API JWT.
+- [x] `ChakraProvider` (v3), `QueryClientProvider` e `BrowserRouter` em `App.tsx`.
+- [x] Camada de service (`http.ts` com interceptor JWT) + `auth.ts`.
+- [x] Tema do Chakra UI v3 em `src/theme` (`createSystem`).
+- [x] Tela de login consumindo a API JWT.
+- [x] Alertas globais (toaster do Chakra).
 - [ ] Layout base (sidebar de módulos) com controle por RBAC.

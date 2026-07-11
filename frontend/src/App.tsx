@@ -2,6 +2,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { RotaProtegida } from './components/RotaProtegida'
+import { Toaster } from './components/Toaster'
 import { queryClient } from './lib/queryClient'
 import Dashboard from './pages/dashboard/Index'
 import Login from './pages/login/Index'
@@ -20,6 +21,7 @@ export default function App() {
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>
         </BrowserRouter>
+        <Toaster />
       </QueryClientProvider>
     </ChakraProvider>
   )

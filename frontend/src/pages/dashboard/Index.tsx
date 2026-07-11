@@ -1,7 +1,7 @@
 import { Box, Button, Heading, Stack, Text } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import { MarcaNovaWave } from '../../components/MarcaNovaWave'
-import { sair } from '../../lib/auth'
+import { sair } from '../../service/auth'
 
 export default function Dashboard() {
   const navigate = useNavigate()
