@@ -2,7 +2,7 @@ import { Box, Flex, Heading, HStack, Link, Stack, Text } from '@chakra-ui/react'
 import { FiBarChart2, FiShield, FiTrendingUp } from 'react-icons/fi'
 import { Link as RouterLink } from 'react-router-dom'
 import { MarcaNovaWave } from '../../components/MarcaNovaWave'
-import { FormularioLogin } from './components/FormularioLogin'
+import { FormularioCadastro } from './components/FormularioCadastro'
 
 const destaques = [
   { icone: FiShield, titulo: 'Mais controle' },
@@ -10,10 +10,9 @@ const destaques = [
   { icone: FiBarChart2, titulo: 'Mais resultados' },
 ]
 
-export default function Login() {
+export default function Cadastro() {
   return (
     <Flex minH="100dvh">
-      {/* Painel da marca */}
       <Flex
         display={{ base: 'none', lg: 'flex' }}
         flex="1.1"
@@ -27,11 +26,11 @@ export default function Login() {
 
         <Stack gap="6" maxW="md">
           <Heading size="3xl" lineHeight="1.1" fontWeight="bold">
-            Gestão inteligente para sua frota, sempre em movimento.
+            Comece a gerir sua frota em minutos.
           </Heading>
           <Text fontSize="lg" opacity="0.9">
-            Veículos, motoristas, abastecimentos, manutenções e custos — tudo em
-            um só lugar, com os dados que geram melhores decisões.
+            Crie a conta da sua transportadora e centralize veículos, motoristas,
+            abastecimentos e custos em um só lugar.
           </Text>
           <Stack gap="3" pt="2">
             {destaques.map(({ icone: Icone, titulo }) => (
@@ -50,9 +49,8 @@ export default function Login() {
         </Text>
       </Flex>
 
-      {/* Painel do formulário */}
       <Flex flex="1" align="center" justify="center" p={{ base: '6', md: '12' }} bg="fundo">
-        <Box w="full" maxW="sm">
+        <Box w="full" maxW="md">
           <Stack gap="8">
             <Stack gap="3">
               <Box display={{ base: 'block', lg: 'none' }}>
@@ -60,20 +58,18 @@ export default function Login() {
               </Box>
               <Stack gap="1">
                 <Heading size="xl" color="gray.900">
-                  Entrar
+                  Criar conta
                 </Heading>
-                <Text color="gray.500">
-                  Acesse o painel da sua transportadora.
-                </Text>
+                <Text color="gray.500">Cadastre sua transportadora no NovaWave Fleet.</Text>
               </Stack>
             </Stack>
 
-            <FormularioLogin />
+            <FormularioCadastro />
 
             <Text fontSize="sm" color="gray.500" textAlign="center">
-              Não tem conta?{' '}
+              Já tem conta?{' '}
               <Link asChild color="brand.fg" fontWeight="medium">
-                <RouterLink to="/cadastrar">Criar conta</RouterLink>
+                <RouterLink to="/login">Entrar</RouterLink>
               </Link>
             </Text>
           </Stack>
