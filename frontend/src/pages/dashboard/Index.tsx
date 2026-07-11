@@ -1,30 +1,47 @@
-import { Box, Button, Heading, Stack, Text } from '@chakra-ui/react'
-import { useNavigate } from 'react-router-dom'
-import { MarcaNovaWave } from '../../components/MarcaNovaWave'
-import { sair } from '../../service/auth'
+import { Grid, SimpleGrid, Stack } from '@chakra-ui/react'
+import { FiActivity, FiDollarSign, FiDroplet, FiPieChart, FiTruck, FiUsers } from 'react-icons/fi'
+import { Cartao } from '../../components/Cartao'
+import { EstadoVazio } from '../../components/EstadoVazio'
+import { BoasVindas } from './components/BoasVindas'
+import { CartaoKpi } from './components/CartaoKpi'
+import { PrimeirosPassos } from './components/PrimeirosPassos'
+
+const kpis = [
+  { rotulo: 'Veículos', icone: FiTruck },
+  { rotulo: 'Motoristas', icone: FiUsers },
+  { rotulo: 'Abastecimentos (mês)', icone: FiDroplet },
+  { rotulo: 'Custos (mês)', icone: FiDollarSign },
+]
 
 export default function Dashboard() {
-  const navigate = useNavigate()
-
-  const aoSair = async () => {
-    await sair()
-    navigate('/login', { replace: true })
-  }
-
   return (
-    <Box minH="100dvh" bg="fundo" p={{ base: '6', md: '10' }}>
-      <Stack gap="8" maxW="2xl">
-        <MarcaNovaWave />
-        <Stack gap="2">
-          <Heading size="xl">Dashboard</Heading>
-          <Text color="gray.600">
-            Bem-vindo ao NovaWave Fleet. Esta tela ainda será construída.
-          </Text>
-        </Stack>
-        <Button colorPalette="brand" variant="outline" w="fit-content" onClick={aoSair}>
-          Sair
-        </Button>
-      </Stack>
-    </Box>
+    <Stack gap="6">
+      <BoasVindas />
+
+      <SimpleGrid columns={{ base: 1, sm: 2, xl: 4 }} gap="5">
+        {kpis.map((kpi) => (
+          <CartaoKpi key={kpi.rotulo} rotulo={kpi.rotulo} icone={kpi.icone} />
+        ))}
+      </SimpleGrid>
+
+      <PrimeirosPassos />
+
+      <Grid templateColumns={{ base: '1fr', lg: '1fr 1fr' }} gap="6">
+        <Cartao titulo="Custos do mês">
+          <EstadoVazio
+            icone={FiPieChart}
+            titulo="Sem custos ainda"
+            descricao="Os gráficos aparecem conforme você registra abastecimentos e manutenções."
+          />
+        </Cartao>
+        <Cartao titulo="Atividade recente">
+          <EstadoVazio
+            icone={FiActivity}
+            titulo="Nenhuma atividade"
+            descricao="As últimas movimentações da sua frota aparecerão aqui."
+          />
+        </Cartao>
+      </Grid>
+    </Stack>
   )
 }
