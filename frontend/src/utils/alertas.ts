@@ -1,6 +1,5 @@
 import { createToaster } from '@chakra-ui/react'
 
-/** Instância global de toasts do NovaWave Fleet. */
 export const toaster = createToaster({
   placement: 'top-end',
   pauseOnPageIdle: true,

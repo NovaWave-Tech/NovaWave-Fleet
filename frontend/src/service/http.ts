@@ -7,13 +7,10 @@ const CHAVE_TOKEN = 'novawave.token'
 const CHAVE_EXP = 'novawave.token_exp'
 const CHAVE_USUARIO = 'novawave.usuario'
 
-// ---- Helpers de autenticação (localStorage) ----
-
 export function obterToken(): string | null {
   return localStorage.getItem(CHAVE_TOKEN)
 }
 
-/** Verifica se o token existe e ainda não expirou. */
 export function tokenValido(): boolean {
   const exp = localStorage.getItem(CHAVE_EXP)
   if (!obterToken() || !exp) return false
@@ -37,14 +34,11 @@ export function obterUsuario<T = unknown>(): T | null {
   return usuario ? (JSON.parse(usuario) as T) : null
 }
 
-// ---- Instância central do Axios ----
-
 const http: AxiosInstance = axios.create({
   baseURL: BASE_URL,
   headers: { 'Content-Type': 'application/json' },
 })
 
-// Anexa o token JWT quando válido.
 http.interceptors.request.use((config) => {
   const token = obterToken()
   if (token && tokenValido()) {
@@ -53,7 +47,6 @@ http.interceptors.request.use((config) => {
   return config
 })
 
-// Trata erros de forma central: 401/403 desloga; demais mostram alerta.
 http.interceptors.response.use(
   (resposta) => resposta,
   (erro: AxiosError<{ mensagem?: string; message?: string }>) => {

@@ -23,14 +23,12 @@ export interface RespostaLogin {
   usuario: Usuario
 }
 
-/** POST /login — autentica e guarda o token/usuário. */
 export async function logar(credenciais: CredenciaisLogin): Promise<RespostaLogin> {
   const { data } = await http.post<RespostaLogin>('/login', credenciais)
   salvarAuth(data.token, data.expira_em, data.usuario)
   return data
 }
 
-/** POST /sair — encerra a sessão e limpa o token local. */
 export async function sair(): Promise<void> {
   try {
     await http.post('/sair')
@@ -39,7 +37,6 @@ export async function sair(): Promise<void> {
   }
 }
 
-/** GET /perfil — dados do usuário autenticado. */
 export async function perfil(): Promise<Usuario> {
   const { data } = await http.get<{ data: Usuario }>('/perfil')
   return data.data

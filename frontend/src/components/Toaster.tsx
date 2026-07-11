@@ -7,7 +7,6 @@ import {
 } from '@chakra-ui/react'
 import { toaster } from '../utils/alertas'
 
-/** Renderiza os toasts globais. Deve ficar montado uma vez na raiz do app. */
 export function Toaster() {
   return (
     <Portal>
