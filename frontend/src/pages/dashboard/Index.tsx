@@ -1,32 +1,47 @@
 import { Grid, SimpleGrid, Stack } from '@chakra-ui/react'
-import { CartaoIndicador } from './components/CartaoIndicador'
-import { CustoMensal } from './components/CustoMensal'
-import { CustosPorCategoria } from './components/CustosPorCategoria'
-import { indicadores } from './components/dados'
-import { LocalizacaoFrota } from './components/LocalizacaoFrota'
-import { StatusFrota } from './components/StatusFrota'
-import { UltimasOcorrencias } from './components/UltimasOcorrencias'
+import { FiActivity, FiDollarSign, FiDroplet, FiPieChart, FiTruck, FiUsers } from 'react-icons/fi'
+import { Cartao } from '../../components/Cartao'
+import { EstadoVazio } from '../../components/EstadoVazio'
+import { BoasVindas } from './components/BoasVindas'
+import { CartaoKpi } from './components/CartaoKpi'
+import { PrimeirosPassos } from './components/PrimeirosPassos'
+
+const kpis = [
+  { rotulo: 'Veículos', icone: FiTruck },
+  { rotulo: 'Motoristas', icone: FiUsers },
+  { rotulo: 'Abastecimentos (mês)', icone: FiDroplet },
+  { rotulo: 'Custos (mês)', icone: FiDollarSign },
+]
 
 export default function Dashboard() {
   return (
     <Stack gap="6">
+      <BoasVindas />
+
       <SimpleGrid columns={{ base: 1, sm: 2, xl: 4 }} gap="5">
-        {indicadores.map((indicador) => (
-          <CartaoIndicador key={indicador.rotulo} indicador={indicador} />
+        {kpis.map((kpi) => (
+          <CartaoKpi key={kpi.rotulo} rotulo={kpi.rotulo} icone={kpi.icone} />
         ))}
       </SimpleGrid>
 
-      <Grid templateColumns={{ base: '1fr', lg: '1.4fr 1fr' }} gap="6">
-        <LocalizacaoFrota />
-        <CustoMensal />
-      </Grid>
+      <PrimeirosPassos />
 
       <Grid templateColumns={{ base: '1fr', lg: '1fr 1fr' }} gap="6">
-        <CustosPorCategoria />
-        <UltimasOcorrencias />
+        <Cartao titulo="Custos do mês">
+          <EstadoVazio
+            icone={FiPieChart}
+            titulo="Sem custos ainda"
+            descricao="Os gráficos aparecem conforme você registra abastecimentos e manutenções."
+          />
+        </Cartao>
+        <Cartao titulo="Atividade recente">
+          <EstadoVazio
+            icone={FiActivity}
+            titulo="Nenhuma atividade"
+            descricao="As últimas movimentações da sua frota aparecerão aqui."
+          />
+        </Cartao>
       </Grid>
-
-      <StatusFrota />
     </Stack>
   )
 }
