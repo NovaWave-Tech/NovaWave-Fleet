@@ -1,4 +1,4 @@
-import { api, limparToken, salvarToken } from './api'
+import http, { limparAuth, salvarAuth } from './http'
 
 export interface Usuario {
   idusuario: number
@@ -23,18 +23,21 @@ export interface RespostaLogin {
   usuario: Usuario
 }
 
-/** Autentica no backend e guarda o token JWT. */
 export async function logar(credenciais: CredenciaisLogin): Promise<RespostaLogin> {
-  const { data } = await api.post<RespostaLogin>('/login', credenciais)
-  salvarToken(data.token)
+  const { data } = await http.post<RespostaLogin>('/login', credenciais)
+  salvarAuth(data.token, data.expira_em, data.usuario)
   return data
 }
 
-/** Encerra a sessão no backend e limpa o token local. */
 export async function sair(): Promise<void> {
   try {
-    await api.post('/sair')
+    await http.post('/sair')
   } finally {
-    limparToken()
+    limparAuth()
   }
+}
+
+export async function perfil(): Promise<Usuario> {
+  const { data } = await http.get<{ data: Usuario }>('/perfil')
+  return data.data
 }

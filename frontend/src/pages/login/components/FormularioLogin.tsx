@@ -14,7 +14,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { FiEye, FiEyeOff, FiLock, FiMail } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
-import { logar } from '../../../lib/auth'
+import { logar } from '../../../service/auth'
 import { esquemaLogin, type DadosLogin } from './esquema'
 
 export function FormularioLogin() {
