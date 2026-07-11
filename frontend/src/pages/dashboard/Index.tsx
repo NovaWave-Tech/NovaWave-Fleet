@@ -1,30 +1,32 @@
-import { Box, Button, Heading, Stack, Text } from '@chakra-ui/react'
-import { useNavigate } from 'react-router-dom'
-import { MarcaNovaWave } from '../../components/MarcaNovaWave'
-import { sair } from '../../service/auth'
+import { Grid, SimpleGrid, Stack } from '@chakra-ui/react'
+import { CartaoIndicador } from './components/CartaoIndicador'
+import { CustoMensal } from './components/CustoMensal'
+import { CustosPorCategoria } from './components/CustosPorCategoria'
+import { indicadores } from './components/dados'
+import { LocalizacaoFrota } from './components/LocalizacaoFrota'
+import { StatusFrota } from './components/StatusFrota'
+import { UltimasOcorrencias } from './components/UltimasOcorrencias'
 
 export default function Dashboard() {
-  const navigate = useNavigate()
-
-  const aoSair = async () => {
-    await sair()
-    navigate('/login', { replace: true })
-  }
-
   return (
-    <Box minH="100dvh" bg="fundo" p={{ base: '6', md: '10' }}>
-      <Stack gap="8" maxW="2xl">
-        <MarcaNovaWave />
-        <Stack gap="2">
-          <Heading size="xl">Dashboard</Heading>
-          <Text color="gray.600">
-            Bem-vindo ao NovaWave Fleet. Esta tela ainda será construída.
-          </Text>
-        </Stack>
-        <Button colorPalette="brand" variant="outline" w="fit-content" onClick={aoSair}>
-          Sair
-        </Button>
-      </Stack>
-    </Box>
+    <Stack gap="6">
+      <SimpleGrid columns={{ base: 1, sm: 2, xl: 4 }} gap="5">
+        {indicadores.map((indicador) => (
+          <CartaoIndicador key={indicador.rotulo} indicador={indicador} />
+        ))}
+      </SimpleGrid>
+
+      <Grid templateColumns={{ base: '1fr', lg: '1.4fr 1fr' }} gap="6">
+        <LocalizacaoFrota />
+        <CustoMensal />
+      </Grid>
+
+      <Grid templateColumns={{ base: '1fr', lg: '1fr 1fr' }} gap="6">
+        <CustosPorCategoria />
+        <UltimasOcorrencias />
+      </Grid>
+
+      <StatusFrota />
+    </Stack>
   )
 }
