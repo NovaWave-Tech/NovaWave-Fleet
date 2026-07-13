@@ -1,5 +1,15 @@
 import { z } from 'zod'
 
+/** Aplica a máscara 00.000.000/0000-00 enquanto o usuário digita. */
+export function formatarCnpj(valor: string): string {
+  const digitos = valor.replace(/\D/g, '').slice(0, 14)
+  return digitos
+    .replace(/^(\d{2})(\d)/, '$1.$2')
+    .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+    .replace(/\.(\d{3})(\d)/, '.$1/$2')
+    .replace(/(\d{4})(\d)/, '$1-$2')
+}
+
 export const esquemaCadastro = z
   .object({
     nome: z.string().trim().min(1, 'Informe seu nome'),
@@ -7,7 +17,10 @@ export const esquemaCadastro = z
     cnpj: z
       .string()
       .trim()
-      .refine((v) => v === '' || /^\d{14}$/.test(v), 'O CNPJ deve ter 14 dígitos'),
+      .refine(
+        (v) => v === '' || /^\d{14}$/.test(v.replace(/\D/g, '')),
+        'O CNPJ deve ter 14 dígitos',
+      ),
     email: z
       .string()
       .trim()
