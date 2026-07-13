@@ -1,5 +1,4 @@
 import {
-  Box,
   Circle,
   Flex,
   Heading,
@@ -11,7 +10,7 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react'
-import { FiBell, FiChevronDown, FiLogOut, FiMenu, FiUser } from 'react-icons/fi'
+import { FiBell, FiChevronDown, FiLogOut, FiMenu } from 'react-icons/fi'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { obterUsuario } from '../../service/http'
 import { sair, type Usuario } from '../../service/auth'
@@ -66,37 +65,19 @@ export function Topbar({ aoAbrirMenu }: TopbarProps) {
         >
           <FiMenu />
         </IconButton>
-        <Heading size="lg" color="gray.900">
+        <Heading size="md" color="gray.900">
           {titulo}
         </Heading>
       </HStack>
 
-      <HStack gap={{ base: '2', md: '4' }}>
-        <Box position="relative">
-          <IconButton aria-label="Notificações" variant="ghost" rounded="full">
-            <FiBell />
-          </IconButton>
-          <Circle
-            size="2"
-            bg="perigo"
-            position="absolute"
-            top="2.5"
-            right="2.5"
-            borderWidth="2px"
-            borderColor="white"
-          />
-        </Box>
+      <HStack gap={{ base: '1', md: '3' }}>
+        <IconButton aria-label="Notificações" variant="ghost" rounded="full" color="gray.500">
+          <FiBell />
+        </IconButton>
 
         <Menu.Root onSelect={(d) => d.value === 'sair' && aoSair()}>
           <Menu.Trigger asChild>
-            <HStack
-              as="button"
-              gap="3"
-              px="2"
-              py="1.5"
-              rounded="lg"
-              _hover={{ bg: 'gray.100' }}
-            >
+            <HStack as="button" gap="3" px="2" py="1.5" rounded="lg" _hover={{ bg: 'gray.100' }}>
               <Circle size="9" bg="brand.solid" color="white" fontWeight="semibold" fontSize="sm">
                 {usuario ? iniciais(usuario.nome) : '?'}
               </Circle>
@@ -113,12 +94,18 @@ export function Topbar({ aoAbrirMenu }: TopbarProps) {
           </Menu.Trigger>
           <Portal>
             <Menu.Positioner>
-              <Menu.Content minW="44">
-                <Menu.Item value="perfil">
-                  <Icon as={FiUser} /> Meu perfil
-                </Menu.Item>
+              <Menu.Content minW="56">
+                <Stack gap="0" px="3" py="2">
+                  <Text fontSize="sm" fontWeight="semibold" color="gray.900">
+                    {usuario?.nome ?? 'Usuário'}
+                  </Text>
+                  <Text fontSize="xs" color="gray.500">
+                    {usuario?.email ?? ''}
+                  </Text>
+                </Stack>
+                <Menu.Separator />
                 <Menu.Item value="sair" color="perigo">
-                  <Icon as={FiLogOut} /> Sair
+                  <Icon as={FiLogOut} /> Sair da conta
                 </Menu.Item>
               </Menu.Content>
             </Menu.Positioner>

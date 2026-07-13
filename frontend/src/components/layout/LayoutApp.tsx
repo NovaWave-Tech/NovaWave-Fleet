@@ -22,7 +22,7 @@ export function LayoutApp() {
         <Portal>
           <Drawer.Backdrop />
           <Drawer.Positioner>
-            <Drawer.Content w="auto" maxW="256px">
+            <Drawer.Content w="auto" maxW="260px" bg="brand.950">
               <Sidebar
                 mostrarBotaoRecolher={false}
                 aoNavegar={() => setMenuAberto(false)}

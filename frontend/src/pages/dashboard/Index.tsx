@@ -7,10 +7,10 @@ import { CartaoKpi } from './components/CartaoKpi'
 import { PrimeirosPassos } from './components/PrimeirosPassos'
 
 const kpis = [
-  { rotulo: 'Veículos', icone: FiTruck },
+  { rotulo: 'Veículos ativos', icone: FiTruck },
   { rotulo: 'Motoristas', icone: FiUsers },
-  { rotulo: 'Abastecimentos (mês)', icone: FiDroplet },
-  { rotulo: 'Custos (mês)', icone: FiDollarSign },
+  { rotulo: 'Abastecimentos no mês', icone: FiDroplet },
+  { rotulo: 'Custos no mês', icone: FiDollarSign },
 ]
 
 export default function Dashboard() {
@@ -24,23 +24,27 @@ export default function Dashboard() {
         ))}
       </SimpleGrid>
 
-      <PrimeirosPassos />
+      <Grid templateColumns={{ base: '1fr', xl: '3fr 2fr' }} gap="6" alignItems="start">
+        <PrimeirosPassos />
 
-      <Grid templateColumns={{ base: '1fr', lg: '1fr 1fr' }} gap="6">
-        <Cartao titulo="Custos do mês">
-          <EstadoVazio
-            icone={FiPieChart}
-            titulo="Sem custos ainda"
-            descricao="Os gráficos aparecem conforme você registra abastecimentos e manutenções."
-          />
-        </Cartao>
-        <Cartao titulo="Atividade recente">
-          <EstadoVazio
-            icone={FiActivity}
-            titulo="Nenhuma atividade"
-            descricao="As últimas movimentações da sua frota aparecerão aqui."
-          />
-        </Cartao>
+        <Stack gap="6">
+          <Cartao titulo="Custos do mês">
+            <EstadoVazio
+              icone={FiPieChart}
+              titulo="Sem custos ainda"
+              descricao="Os gráficos aparecem conforme você registra abastecimentos e manutenções."
+              alturaMin="160px"
+            />
+          </Cartao>
+          <Cartao titulo="Atividade recente">
+            <EstadoVazio
+              icone={FiActivity}
+              titulo="Nenhuma atividade"
+              descricao="As últimas movimentações da sua frota aparecerão aqui."
+              alturaMin="160px"
+            />
+          </Cartao>
+        </Stack>
       </Grid>
     </Stack>
   )

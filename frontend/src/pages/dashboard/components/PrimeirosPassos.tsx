@@ -66,7 +66,10 @@ export function PrimeirosPassos() {
               gap="4"
               p="3"
               rounded="lg"
-              _hover={{ bg: 'gray.50' }}
+              borderWidth="1px"
+              borderColor="transparent"
+              transition="background 0.15s ease, border-color 0.15s ease"
+              _hover={{ bg: 'gray.50', borderColor: 'borda' }}
             >
               <Circle size="10" bg="brand.subtle" color="brand.solid" flexShrink="0">
                 <Icon as={passo.icone} boxSize="5" />
