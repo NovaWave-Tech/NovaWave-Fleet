@@ -15,16 +15,20 @@ export interface ItemMenu {
   rotulo: string
   caminho: string
   icone: IconType
+  secao: string
 }
 
+/** Ordem de exibição das seções na sidebar. */
+export const secoesMenu = ['Principal', 'Operação', 'Gestão', 'Sistema'] as const
+
 export const itensMenu: ItemMenu[] = [
-  { rotulo: 'Dashboard', caminho: '/dashboard', icone: FiGrid },
-  { rotulo: 'Veículos', caminho: '/veiculos', icone: FiTruck },
-  { rotulo: 'Motoristas', caminho: '/motoristas', icone: FiUsers },
-  { rotulo: 'Abastecimentos', caminho: '/abastecimentos', icone: FiDroplet },
-  { rotulo: 'Manutenções', caminho: '/manutencoes', icone: FiTool },
-  { rotulo: 'Documentos', caminho: '/documentos', icone: FiFileText },
-  { rotulo: 'Ocorrências', caminho: '/ocorrencias', icone: FiAlertTriangle },
-  { rotulo: 'Relatórios', caminho: '/relatorios', icone: FiBarChart2 },
-  { rotulo: 'Configurações', caminho: '/configuracoes', icone: FiSettings },
+  { rotulo: 'Dashboard', caminho: '/dashboard', icone: FiGrid, secao: 'Principal' },
+  { rotulo: 'Veículos', caminho: '/veiculos', icone: FiTruck, secao: 'Operação' },
+  { rotulo: 'Motoristas', caminho: '/motoristas', icone: FiUsers, secao: 'Operação' },
+  { rotulo: 'Abastecimentos', caminho: '/abastecimentos', icone: FiDroplet, secao: 'Operação' },
+  { rotulo: 'Manutenções', caminho: '/manutencoes', icone: FiTool, secao: 'Operação' },
+  { rotulo: 'Documentos', caminho: '/documentos', icone: FiFileText, secao: 'Gestão' },
+  { rotulo: 'Ocorrências', caminho: '/ocorrencias', icone: FiAlertTriangle, secao: 'Gestão' },
+  { rotulo: 'Relatórios', caminho: '/relatorios', icone: FiBarChart2, secao: 'Gestão' },
+  { rotulo: 'Configurações', caminho: '/configuracoes', icone: FiSettings, secao: 'Sistema' },
 ]

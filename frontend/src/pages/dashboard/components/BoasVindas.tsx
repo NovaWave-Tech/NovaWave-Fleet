@@ -4,9 +4,19 @@ import { Link as RouterLink } from 'react-router-dom'
 import { type Usuario } from '../../../service/auth'
 import { obterUsuario } from '../../../service/http'
 
+function dataDeHoje(): string {
+  const formatada = new Intl.DateTimeFormat('pt-BR', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  }).format(new Date())
+  return formatada.charAt(0).toUpperCase() + formatada.slice(1)
+}
+
 export function BoasVindas() {
   const usuario = obterUsuario<Usuario>()
-  const primeiroNome = usuario?.nome?.trim().split(/\s+/)[0] ?? 'bem-vindo'
+  const primeiroNome = usuario?.nome?.trim().split(/\s+/)[0]
 
   return (
     <Flex
@@ -16,14 +26,15 @@ export function BoasVindas() {
       gap="4"
     >
       <Stack gap="1">
-        <Heading size="xl" color="gray.900">
-          Olá, {primeiroNome} 👋
-        </Heading>
-        <Text color="gray.500">
-          Bem-vindo ao NovaWave Fleet. Vamos configurar sua frota para começar.
+        <Text fontSize="sm" color="gray.500">
+          {dataDeHoje()}
         </Text>
+        <Heading size="xl" color="gray.900" letterSpacing="-0.01em">
+          {primeiroNome ? `Olá, ${primeiroNome}` : 'Olá'}
+        </Heading>
+        <Text color="gray.500">Este é o panorama da operação da sua frota.</Text>
       </Stack>
-      <Button asChild colorPalette="brand" size="lg" flexShrink="0">
+      <Button asChild colorPalette="brand" size="lg" fontWeight="semibold" flexShrink="0">
         <RouterLink to="/veiculos">
           <FiPlus /> Cadastrar veículo
         </RouterLink>
