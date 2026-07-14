@@ -5,8 +5,7 @@ import {
   HStack,
   Icon,
   IconButton,
-  Input,
-  InputGroup,
+  Kbd,
   Menu,
   Portal,
   Stack,
@@ -17,6 +16,9 @@ import { useNavigate } from 'react-router-dom'
 import { sair, type Usuario } from '../../service/auth'
 import { obterUsuario } from '../../service/http'
 import { MarcaNovaWave } from '../MarcaNovaWave'
+import { RelogioOperacional } from './RelogioOperacional'
+import { ResumoOperacional } from './ResumoOperacional'
+import type { ResumoFrota } from './StatusFrotaSidebar'
 
 function iniciais(nome: string): string {
   return nome
@@ -29,9 +31,11 @@ function iniciais(nome: string): string {
 
 interface TopbarProps {
   aoAbrirMenu: () => void
+  aoAbrirBusca: () => void
+  frota: ResumoFrota
 }
 
-export function Topbar({ aoAbrirMenu }: TopbarProps) {
+export function Topbar({ aoAbrirMenu, aoAbrirBusca, frota }: TopbarProps) {
   const navigate = useNavigate()
   const usuario = obterUsuario<Usuario>()
 
@@ -65,22 +69,43 @@ export function Topbar({ aoAbrirMenu }: TopbarProps) {
         <MarcaNovaWave tamanho={32} />
       </HStack>
 
-      <InputGroup
-        flex="1"
-        maxW="440px"
-        display={{ base: 'none', md: 'flex' }}
-        startElement={<Icon as={FiSearch} color="gray.400" />}
-      >
-        <Input
-          placeholder="Buscar veículos, placas, motoristas..."
-          bg="fundo"
-          borderColor="borda"
-          fontSize="sm"
-          _placeholder={{ color: 'gray.400' }}
-        />
-      </InputGroup>
+      <Box display={{ base: 'none', xl: 'block' }}>
+        <ResumoOperacional frota={frota} />
+      </Box>
 
       <HStack gap={{ base: '1.5', md: '3' }} ml="auto" flexShrink="0">
+        <HStack
+          as="button"
+          onClick={aoAbrirBusca}
+          display={{ base: 'none', md: 'flex' }}
+          gap="2.5"
+          w="240px"
+          px="3"
+          h="9"
+          rounded="md"
+          bg="fundo"
+          borderWidth="1px"
+          borderColor="borda"
+          color="gray.400"
+          _hover={{ borderColor: 'brand.200' }}
+        >
+          <Icon as={FiSearch} boxSize="4" />
+          <Text fontSize="sm" flex="1" textAlign="left">
+            Buscar...
+          </Text>
+          <Kbd fontSize="2xs">Ctrl K</Kbd>
+        </HStack>
+
+        <IconButton
+          aria-label="Buscar"
+          variant="ghost"
+          color="tintaSuave"
+          display={{ base: 'inline-flex', md: 'none' }}
+          onClick={aoAbrirBusca}
+        >
+          <FiSearch />
+        </IconButton>
+
         <HStack
           as="button"
           display={{ base: 'none', lg: 'flex' }}
@@ -103,6 +128,10 @@ export function Topbar({ aoAbrirMenu }: TopbarProps) {
           </Stack>
           <Icon as={FiChevronDown} color="gray.400" boxSize="4" />
         </HStack>
+
+        <Box display={{ base: 'none', lg: 'block' }}>
+          <RelogioOperacional />
+        </Box>
 
         <Box position="relative">
           <IconButton aria-label="Notificações" variant="ghost" rounded="md" color="tintaSuave">
