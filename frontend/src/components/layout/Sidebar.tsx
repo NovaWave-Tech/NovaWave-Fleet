@@ -41,15 +41,15 @@ export function Sidebar({
         rounded="md"
         fontSize="sm"
         fontWeight={ativo ? '600' : '500'}
-        color={ativo ? 'white' : 'whiteAlpha.700'}
-        bg={ativo ? 'whiteAlpha.200' : 'transparent'}
-        _hover={{ bg: ativo ? 'whiteAlpha.200' : 'whiteAlpha.100', color: 'white' }}
+        color={ativo ? 'brand.solid' : 'tintaSuave'}
+        bg={ativo ? 'brand.subtle' : 'transparent'}
+        _hover={{ bg: ativo ? 'brand.subtle' : 'fundo', color: ativo ? 'brand.solid' : 'tinta' }}
         transition="background 0.15s ease, color 0.15s ease"
       >
         {ativo && (
           <Box position="absolute" left="0" insetY="1.5" w="3px" rounded="full" bg="operacional" />
         )}
-        <Icon as={dado.icone} boxSize="5" flexShrink="0" color={ativo ? 'operacional' : 'whiteAlpha.600'} />
+        <Icon as={dado.icone} boxSize="5" flexShrink="0" color={ativo ? 'operacional' : 'gray.500'} />
         {!recolhida && <Text as="span">{dado.rotulo}</Text>}
       </LinkNav>
     )
@@ -60,7 +60,9 @@ export function Sidebar({
       direction="column"
       h="full"
       w={recolhida ? '76px' : '264px'}
-      bg="brand.900"
+      bg="white"
+      borderRightWidth="1px"
+      borderColor="borda"
       transition="width 0.2s ease"
     >
       <Stack as="nav" gap={recolhida ? '2' : '5'} px="3" py="4" flex="1" overflowY="auto">
@@ -71,14 +73,14 @@ export function Sidebar({
           return (
             <Stack key={secao} gap="1">
               {recolhida ? (
-                <Box h="1px" bg="whiteAlpha.100" mx="2" mb="1" />
+                <Box h="1px" bg="borda" mx="2" mb="1" />
               ) : (
                 <Text
                   px="3"
                   pb="1"
                   fontSize="2xs"
                   fontWeight="600"
-                  color="whiteAlpha.400"
+                  color="gray.400"
                   textTransform="uppercase"
                   letterSpacing="0.08em"
                 >
@@ -94,7 +96,7 @@ export function Sidebar({
       {!recolhida && <StatusFrotaSidebar frota={frota} />}
 
       {mostrarBotaoRecolher && (
-        <Box borderTopWidth="1px" borderColor="whiteAlpha.100" p="3">
+        <Box borderTopWidth="1px" borderColor="borda" p="3">
           <HStack
             as="button"
             w="full"
@@ -102,9 +104,9 @@ export function Sidebar({
             px="3"
             py="2.5"
             rounded="md"
-            color="whiteAlpha.600"
+            color="tintaSuave"
             justify={recolhida ? 'center' : 'flex-start'}
-            _hover={{ bg: 'whiteAlpha.100', color: 'white' }}
+            _hover={{ bg: 'fundo', color: 'tinta' }}
             transition="background 0.15s ease, color 0.15s ease"
             onClick={aoAlternar}
           >
