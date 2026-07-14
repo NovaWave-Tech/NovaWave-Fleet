@@ -1,4 +1,4 @@
-import { Box, HStack, Stack, Text } from '@chakra-ui/react'
+import { Stack, Text } from '@chakra-ui/react'
 
 interface MarcaNovaWaveProps {
   variante?: 'claro' | 'escuro'
@@ -8,25 +8,37 @@ interface MarcaNovaWaveProps {
 
 export function MarcaNovaWave({
   variante = 'escuro',
-  tamanho = 40,
+  tamanho = 36,
   somenteIcone = false,
 }: MarcaNovaWaveProps) {
-  const corTexto = variante === 'claro' ? 'white' : 'gray.900'
+  const claro = variante === 'claro'
+  const badge = claro ? '#ffffff' : '#1e3a5f'
+  const rota = claro ? '#1e3a5f' : '#ffffff'
 
   const icone = (
-    <svg width={tamanho} height={tamanho} viewBox="0 0 48 48" fill="none" aria-hidden="true">
+    <svg
+      width={tamanho}
+      height={tamanho}
+      viewBox="0 0 40 40"
+      fill="none"
+      role="img"
+      aria-label="NovaWave Fleet"
+    >
+      <rect width="40" height="40" rx="9" fill={badge} />
+      {/* Rota formando N e W (malha rodoviária) */}
       <path
-        d="M5 31 C 12 17, 18 17, 24 27 S 36 37, 43 15"
-        stroke="#0f62fe"
-        strokeWidth="5"
+        d="M9 28 V13 L18 28 V13"
+        stroke={rota}
+        strokeWidth="2.6"
         strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
-        d="M5 40 C 12 26, 18 26, 24 36 S 36 46, 43 24"
-        stroke="#22c55e"
-        strokeWidth="5"
+        d="M21 13 L24 28 L27 19 L30 28 L33 13"
+        stroke={rota}
+        strokeWidth="2.6"
         strokeLinecap="round"
-        opacity="0.9"
+        strokeLinejoin="round"
       />
     </svg>
   )
@@ -34,19 +46,27 @@ export function MarcaNovaWave({
   if (somenteIcone) return icone
 
   return (
-    <HStack gap="3" align="center">
+    <Stack direction="row" gap="2.5" align="center">
       {icone}
-      <Stack gap="0" lineHeight="1">
-        <Text fontWeight="bold" fontSize="xl" letterSpacing="-0.02em" color={corTexto}>
-          Nova
-          <Box as="span" color={variante === 'claro' ? 'white' : 'secundaria'}>
-            Wave
-          </Box>
+      <Stack gap="0" lineHeight="1.05">
+        <Text
+          fontSize="lg"
+          fontWeight="600"
+          letterSpacing="-0.01em"
+          color={claro ? 'white' : 'tinta'}
+        >
+          NovaWave
         </Text>
-        <Text fontWeight="semibold" fontSize="sm" color="sucesso" letterSpacing="0.02em">
+        <Text
+          fontSize="10px"
+          fontWeight="600"
+          letterSpacing="0.18em"
+          textTransform="uppercase"
+          color={claro ? 'whiteAlpha.700' : 'secundaria'}
+        >
           Fleet
         </Text>
       </Stack>
-    </HStack>
+    </Stack>
   )
 }

@@ -1,10 +1,5 @@
 import { createSystem, defaultConfig, defineConfig } from '@chakra-ui/react'
 
-/**
- * Tema do NovaWave Fleet — paleta e tipografia da identidade da marca.
- * Cores em português como tokens semânticos; a escala "brand" habilita
- * `colorPalette="brand"` nos componentes do Chakra.
- */
 const config = defineConfig({
   theme: {
     tokens: {
@@ -13,27 +8,35 @@ const config = defineConfig({
         body: { value: "'Inter', system-ui, sans-serif" },
       },
       colors: {
+        // Azul institucional (marca)
         brand: {
-          50: { value: '#eef3ff' },
-          100: { value: '#d9e4ff' },
-          200: { value: '#bccfff' },
-          300: { value: '#8eabff' },
-          400: { value: '#5a7dff' },
-          500: { value: '#0f62fe' }, // primária
-          600: { value: '#0b4ed6' },
-          700: { value: '#0d43ad' },
-          800: { value: '#123a8a' },
-          900: { value: '#16346f' },
-          950: { value: '#0f2147' },
+          50: { value: '#eef2f6' },
+          100: { value: '#d5dfe9' },
+          200: { value: '#aec0d2' },
+          300: { value: '#7e99b4' },
+          400: { value: '#4c6f95' },
+          500: { value: '#1e3a5f' },
+          600: { value: '#1a3252' },
+          700: { value: '#152840' },
+          800: { value: '#101e30' },
+          900: { value: '#0b1522' },
+          950: { value: '#06101c' },
         },
-        // Cores de apoio da identidade
-        secundaria: { value: '#2563eb' },
-        destaque: { value: '#38bdf8' },
-        sucesso: { value: '#22c55e' },
-        atencao: { value: '#f59e0b' },
-        perigo: { value: '#ef4444' },
-        borda: { value: '#e2e8f0' },
-        fundo: { value: '#f8fafc' },
+        secundaria: { value: '#2c5282' },
+        // Azul operacional — apenas elementos ativos/foco
+        operacional: { value: '#3b82f6' },
+        // Status operacionais
+        sucesso: { value: '#2f855a' },
+        atencao: { value: '#dd6b20' },
+        perigo: { value: '#c53030' },
+        // Neutros corporativos
+        borda: { value: '#d9e2ec' },
+        fundo: { value: '#f5f7fa' },
+        tinta: { value: '#1a202c' },
+        tintaSuave: { value: '#4a5568' },
+      },
+      shadows: {
+        cartao: { value: '0 1px 2px rgba(16, 24, 40, 0.04), 0 1px 3px rgba(16, 24, 40, 0.06)' },
       },
     },
     semanticTokens: {
@@ -45,7 +48,7 @@ const config = defineConfig({
           muted: { value: '{colors.brand.100}' },
           subtle: { value: '{colors.brand.50}' },
           emphasized: { value: '{colors.brand.200}' },
-          focusRing: { value: '{colors.brand.500}' },
+          focusRing: { value: '{colors.operacional}' },
         },
       },
     },
@@ -53,7 +56,8 @@ const config = defineConfig({
   globalCss: {
     'html, body': {
       backgroundColor: 'fundo',
-      color: 'gray.900',
+      color: 'tinta',
+      fontWeight: '400',
     },
   },
 })
