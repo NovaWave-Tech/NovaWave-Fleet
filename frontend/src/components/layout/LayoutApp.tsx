@@ -9,32 +9,26 @@ export function LayoutApp() {
   const [menuAberto, setMenuAberto] = useState(false)
 
   return (
-    <Flex minH="100dvh" bg="fundo">
-      <Box display={{ base: 'none', lg: 'block' }} position="sticky" top="0" h="100dvh" flexShrink="0">
-        <Sidebar recolhida={recolhida} aoAlternar={() => setRecolhida((v) => !v)} />
-      </Box>
+    <Flex direction="column" h="100dvh" bg="fundo">
+      <Topbar aoAbrirMenu={() => setMenuAberto(true)} />
 
-      <Drawer.Root
-        open={menuAberto}
-        onOpenChange={(e) => setMenuAberto(e.open)}
-        placement="start"
-      >
-        <Portal>
-          <Drawer.Backdrop />
-          <Drawer.Positioner>
-            <Drawer.Content w="auto" maxW="260px" bg="brand.950">
-              <Sidebar
-                mostrarBotaoRecolher={false}
-                aoNavegar={() => setMenuAberto(false)}
-              />
-            </Drawer.Content>
-          </Drawer.Positioner>
-        </Portal>
-      </Drawer.Root>
+      <Flex flex="1" overflow="hidden">
+        <Box display={{ base: 'none', lg: 'block' }} flexShrink="0" h="full">
+          <Sidebar recolhida={recolhida} aoAlternar={() => setRecolhida((v) => !v)} />
+        </Box>
 
-      <Flex direction="column" flex="1" minW="0">
-        <Topbar aoAbrirMenu={() => setMenuAberto(true)} />
-        <Box as="main" flex="1" p={{ base: '4', md: '6' }}>
+        <Drawer.Root open={menuAberto} onOpenChange={(e) => setMenuAberto(e.open)} placement="start">
+          <Portal>
+            <Drawer.Backdrop />
+            <Drawer.Positioner>
+              <Drawer.Content w="auto" maxW="240px" bg="white">
+                <Sidebar mostrarBotaoRecolher={false} aoNavegar={() => setMenuAberto(false)} />
+              </Drawer.Content>
+            </Drawer.Positioner>
+          </Portal>
+        </Drawer.Root>
+
+        <Box as="main" flex="1" minW="0" overflowY="auto" p={{ base: '4', md: '6' }}>
           <Outlet />
         </Box>
       </Flex>
