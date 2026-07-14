@@ -42,9 +42,11 @@ export function CartaoKpi({ rotulo, icone, cor, valor, unidade }: CartaoKpiProps
               </Text>
             )}
           </HStack>
-          <Text fontSize="2xs" color="gray.400">
-            Sem registros no período
-          </Text>
+          {!valor && (
+            <Text fontSize="2xs" color="gray.400">
+              Sem registros no período
+            </Text>
+          )}
         </Stack>
         <Flex align="center" justify="center" boxSize="10" rounded="lg" bg={`${cor}/12`} color={cor} flexShrink="0">
           <Icon as={icone} boxSize="5" />
