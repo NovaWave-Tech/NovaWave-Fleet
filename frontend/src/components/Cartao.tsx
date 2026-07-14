@@ -12,15 +12,15 @@ export function Cartao({ titulo, acao, children, ...rest }: CartaoProps) {
       bg="white"
       borderWidth="1px"
       borderColor="borda"
-      rounded="xl"
+      rounded="lg"
       p="5"
-      boxShadow="xs"
+      boxShadow="cartao"
       {...rest}
     >
       {(titulo || acao) && (
-        <HStack justify="space-between" mb="4">
+        <HStack justify="space-between" mb="4" gap="3">
           {titulo && (
-            <Heading size="md" color="gray.900">
+            <Heading size="sm" fontWeight="600" color="tinta">
               {titulo}
             </Heading>
           )}

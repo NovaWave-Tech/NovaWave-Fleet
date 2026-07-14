@@ -59,14 +59,14 @@ export function LayoutAutenticacao({ children, larguraMax = '400px' }: LayoutAut
         gap="10"
         px="14"
         py="12"
-        bg="brand.950"
+        bg="brand.900"
         color="white"
       >
         <MarcaNovaWave variante="claro" />
 
         <Stack gap="10" maxW="sm">
           <Stack gap="4">
-            <Heading size="2xl" lineHeight="1.2" color="white" letterSpacing="-0.01em">
+            <Heading size="2xl" fontWeight="600" lineHeight="1.2" color="white" letterSpacing="-0.01em">
               O sistema de gestão da sua transportadora.
             </Heading>
             <Text color="whiteAlpha.800">

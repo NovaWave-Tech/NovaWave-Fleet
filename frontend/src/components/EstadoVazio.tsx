@@ -1,4 +1,4 @@
-import { Circle, Icon, Stack, Text } from '@chakra-ui/react'
+import { Flex, Icon, Stack, Text } from '@chakra-ui/react'
 import type { ReactNode } from 'react'
 import type { IconType } from 'react-icons'
 
@@ -10,18 +10,18 @@ interface EstadoVazioProps {
   alturaMin?: string
 }
 
-export function EstadoVazio({ icone, titulo, descricao, acao, alturaMin = '220px' }: EstadoVazioProps) {
+export function EstadoVazio({ icone, titulo, descricao, acao, alturaMin = '180px' }: EstadoVazioProps) {
   return (
-    <Stack align="center" justify="center" textAlign="center" gap="4" minH={alturaMin} py="8">
-      <Circle size="14" bg="brand.subtle" color="brand.solid">
-        <Icon as={icone} boxSize="6" />
-      </Circle>
-      <Stack gap="1" maxW="sm">
-        <Text fontWeight="semibold" color="gray.900">
+    <Stack align="center" justify="center" textAlign="center" gap="3" minH={alturaMin} py="6">
+      <Flex align="center" justify="center" boxSize="12" rounded="lg" bg="fundo" color="gray.400">
+        <Icon as={icone} boxSize="5" />
+      </Flex>
+      <Stack gap="1" maxW="xs">
+        <Text fontSize="sm" fontWeight="600" color="tinta">
           {titulo}
         </Text>
         {descricao && (
-          <Text fontSize="sm" color="gray.500">
+          <Text fontSize="sm" color="tintaSuave">
             {descricao}
           </Text>
         )}
